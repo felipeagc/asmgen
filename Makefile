@@ -15,8 +15,11 @@ generated.s: asmgen
 generated.o: generated.s
 	nasm -f elf64 $< -o $@
 
-generated: generated.o
-	gcc -no-pie -o $@ $<
+other.o: other.c
+	gcc -no-pie -c $< -o $@
+
+generated: generated.o other.o
+	gcc -no-pie -o $@ $^
 
 clean: .PHONY
 	rm asmgen
